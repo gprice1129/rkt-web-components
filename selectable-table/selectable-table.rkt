@@ -30,7 +30,7 @@
 
     (define (render-selectable-table-body rws)
         (define (render-table-selectable-row rw)
-            ((render-table-row "selectable-row" (render-table-cell "table-cell")) rw))
+            ((render-table-row "data-row selectable-row" (render-table-cell "table-cell")) rw))
         ((render-table-section 'tbody "table-body" render-table-selectable-row) rws))
     
     `(table ((class "selectable-table"))
