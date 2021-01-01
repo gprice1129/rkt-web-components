@@ -1,0 +1,13 @@
+table {
+  border: none;
+  border-collapse: collapse;
+  cursor: default;
+}
+
+td {
+  padding-right: 10px;
+}
+
+.active {
+  background: blue
+}

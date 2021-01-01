@@ -1,0 +1,12 @@
+Concept 1 input (input text)		ISA-related concepts for Concept 1 (checkbox)
+Concept 1 display (selectable table)	Predicate 1 display (selectable list)
+Concept 1 description (label)
+Concept 2 input (input text)		ISA-related concepts for Concept 2 (checkbox)
+Predicate 2 display (selectable list)	Concept 2 display (selectable list)
+Hits found timing (label)		Search hits (input text)
+Hits display (selectable table)
+Paths display (selectable table)
+Subject display (selectable table)	Edge display (selectable table)		Object display (selectable table)	Pubmed display (selectable table)
+Publication date search (input text)	Subject score search (input text)	Object score search (input text)
+Some display (?)
+
