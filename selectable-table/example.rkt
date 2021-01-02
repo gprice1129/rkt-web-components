@@ -1,6 +1,6 @@
 #lang web-server/insta
 
-(require racket/pretty "selectable-table.rkt")
+(require racket/pretty racket/string "selectable-table.rkt")
 
 (define (start request)
     (render-example request))
@@ -12,7 +12,7 @@
                 (head (title "Selectable Table Example")
                     ,stylesheet)
                 (body
-                    ,(render-selectable-table HEADERS ROWS)
+                    ,(render-selectable-table HEADERS (hash-map ROWS (lambda (k v) v)))
                     (form ((id "query") (action ,(embed/url query-handler)))
                         (input ((type "hidden")
                                 (name "query-data")
@@ -27,7 +27,17 @@
                     ))))
 
     (define (query-handler request)
-        (pretty-print (extract-binding/single 'query-data (request-bindings request)))
+        (define active-rows
+            (list->set (map string->number (string-split
+                (extract-binding/single 'query-data (request-bindings request))))))
+        
+        (pretty-print active-rows)
+        
+        (hash-for-each ROWS
+            (lambda (k v)
+                (define row (hash-ref ROWS k))
+                (set-row-state! row (if (set-member? active-rows k) 'active 'inactive))))
+
         (render-example request))
 
     (send/suspend/dispatch response-generator))
@@ -43,6 +53,6 @@
     '(script ((src "/query.js"))))
 
 ;;; static data
-(define HEADERS `(,(row 'null '("Type" "Cost"))))
-(define ROWS `(,(row 'inactive '("Ship" "$1000"))
-               ,(row 'active '("Mine" "$200"))))
+(define HEADERS `(,(simple-row '("Type" "Cost"))))
+(define ROWS (make-hash `(,(cons 0 (selectable-row 0 'inactive '("Ship" "$1000")))
+                          ,(cons 1 (selectable-row 1 'active '("Mine" "$200"))))))
