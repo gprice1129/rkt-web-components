@@ -1,12 +1,16 @@
 #lang racket/base
 
-(provide render-text-input)
+(provide render-text-input mk-simple-text-input (struct-out custom-text-input))
 
-(define (render-text-input id label cls form-id placeholder)
+(struct custom-text-input (id form-id class label placeholder))
+(define (mk-simple-text-input id form-id label)
+    (custom-text-input id form-id "simple-text-input" label ""))
+(define (render-text-input t)
+    (define txt-id-string (symbol->string (custom-text-input-id t)))
     `(div
-        (label ((class ,cls)) ,label)
-        (input ((id ,id)
+        (label ((class ,(custom-text-input-class t))) ,(custom-text-input-label t))
+        (input ((id ,txt-id-string)
                 (type "text")
-                (name ,id)
-                (form ,form-id)
-                (placeholder ,placeholder)))))
+                (name ,txt-id-string)
+                (form ,(symbol->string (custom-text-input-form-id t)))
+                (placeholder ,(custom-text-input-placeholder t))))))
